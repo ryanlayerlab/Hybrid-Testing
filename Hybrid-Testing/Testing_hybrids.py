@@ -9,7 +9,7 @@ peak_filter = 25
 relative_abundance_filter = .1
 prec_tol = 10
 max_pep_len = 25
-make_new_db = False
+make_new_db = True
 
 #Set your filepaths to the database and the spectra folder
 prot_path = '/home/    /data/database/sample_database.fasta'
