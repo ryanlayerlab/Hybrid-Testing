@@ -1,7 +1,7 @@
 from .preprocessing_utils import ppm_to_da
-from .sqlite import database_file
+#from .sqlite import database_file
 from .objects import Database
-from .gen_spectra import *
+from .gen_spectra import max_mass
 import shutil
 import sys
 import time
@@ -10,7 +10,7 @@ def get_data(kmer, start, end, protein_num):
     data_list = []
     for ion in 'by':
         for charge in [1,2]:
-            mass = gen_spectra.max_mass(kmer, ion=ion, charge=charge)
+            mass = max_mass(kmer, ion=ion, charge=charge)
             ion_int = 0 if ion == 'b' else 1
             input_tuple = (mass, start, end, ion_int, charge, protein_num)
             data_list.append(input_tuple)
@@ -80,12 +80,12 @@ def modified_make_database_set(proteins: list, max_len: int, dbf):
     # print('Sorting the set of protein masses done')
     return
 
-def modified_match_masses(input_masses: list, db: Database, max_len: int, ppm_tolerance):
+def modified_match_masses(input_masses: list, db: Database, max_len: int, ppm_tolerance, dbf):
     # max_boundary = max(boundaries.keys())
     # estimated_max_len = ceil(boundaries[max_boundary][1] / 57.021464)
     # max_len = min(estimated_max_len, max_pep_len)
     
-    dbf = database_file(max_len, False)
+    #dbf = database_file(max_len, False)
     
     matched_masses_b, matched_masses_y = dict(), dict()
     

@@ -1,9 +1,13 @@
 import sqlite3
 import time
+import os.path
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+db_path = os.path.join(BASE_DIR, "kmers.db")
 
 class database_file:
     def __init__(self, max_len, reset=True):
-        self.connection = sqlite3.connect("kmers.db")
+        self.connection = sqlite3.connect(db_path)
         self.cursor = self.connection.cursor()
         self.max_len = max_len
         self.query_protein_average = 0
@@ -24,6 +28,8 @@ class database_file:
                                 )''')
         
     def insert(self,data):
+        #conn = sqlite3.connect('kmers.db')
+        print(self)
         self.cursor.executemany('INSERT INTO kmers VALUES(?, ?, ?, ?, ?, ?)', data)
         self.connection.commit()
         

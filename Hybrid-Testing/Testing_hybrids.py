@@ -28,7 +28,7 @@ spectra = preprocessing_utils.load_spectra(spectra_files, ppm_tolerance, peak_fi
     
 for spectrum in spectra:
     #This matches every mz in a spectrum with a list of kmers it can match to. Format is (m/z, location_start, location_end, ion, charge, parent_protein)
-    matched_masses_b, matched_masses_y = merge_search.modified_match_masses(spectrum.mz_values, proteins, max_pep_len, ppm_tolerance, make_new_db)
+    matched_masses_b, matched_masses_y = merge_search.modified_match_masses(spectrum.mz_values, proteins, max_pep_len, ppm_tolerance)
     
     #Your code here
     print("hello")
