@@ -80,16 +80,12 @@ def modified_make_database_set(proteins: list, max_len: int, dbf):
     # print('Sorting the set of protein masses done')
     return
 
-def modified_match_masses(input_masses: list, db: Database, max_len: int, ppm_tolerance, make_new):
+def modified_match_masses(input_masses: list, db: Database, max_len: int, ppm_tolerance):
     # max_boundary = max(boundaries.keys())
     # estimated_max_len = ceil(boundaries[max_boundary][1] / 57.021464)
     # max_len = min(estimated_max_len, max_pep_len)
     
-    dbf = database_file(max_len, make_new)
-    if make_new:
-        kv_prots = [(k, v) for k, v in db.proteins]    
-        # extended_kv_prots = [(k, entry) for (k, v) in kv_prots for entry in v]
-        modified_make_database_set(kv_prots, max_len, dbf)
+    dbf = database_file(max_len, False)
     
     matched_masses_b, matched_masses_y = dict(), dict()
     
