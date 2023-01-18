@@ -1,5 +1,4 @@
 from preprocessing import database, preprocessing_utils, clustering, merge_search, sqlite
-from preprocessing.merge_search import modified_match_masses
 from preprocessing.constants import WATER_MASS, PROTON_MASS, AMINO_ACIDS
 # import matplotlib.pyplot as plt
 
