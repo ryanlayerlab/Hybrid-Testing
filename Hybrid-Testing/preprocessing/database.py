@@ -1,4 +1,4 @@
-from objects import Database
+from .objects import Database
 from pyteomics import fasta
 
 def build(fasta_file: str) -> Database:

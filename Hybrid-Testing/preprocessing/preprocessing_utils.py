@@ -1,3 +1,5 @@
+import os
+
 def get_spectra_files(spectra_folder):
     spectra_files = []
     for (root, _, filenames) in os.walk(spectra_folder):

@@ -1,7 +1,7 @@
-from preprocessing_utils import ppm_to_da
-from sqlite import database_file
-from constants import Database
-import gen_spectra
+from .preprocessing_utils import ppm_to_da
+from .sqlite import database_file
+from .objects import Database
+from .gen_spectra import *
 import shutil
 import sys
 import time
