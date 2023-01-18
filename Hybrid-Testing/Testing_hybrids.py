@@ -14,14 +14,15 @@ make_new_db = True #change to false after first time running
 prot_path = 'C:/Users/kayle/OneDrive/Documents/Hybrid-Testing/Hybrid-Testing/data/database/sample_database.fasta'
 proteins = database.build(prot_path)
 
-spectra_path = 'C:/Users/kayle/OneDrive/Documents/Hybrid-Testing/Hybrid-Testing/data/spectra/NOD2_E3.mzml'
+spectra_path = 'C:/Users/kayle/OneDrive/Documents/Hybrid-Testing/Hybrid-Testing/data/spectra/NOD2_E3'
 spectra_files = preprocessing_utils.get_spectra_files(spectra_path)
 
 #Loads in the spectra as a list of spectrum objects
-spectra, _ = preprocessing_utils.load_spectra(spectra_files, ppm_tolerance, peak_filter, relative_abundance_filter)
+spectra = preprocessing_utils.load_spectra(spectra_files, ppm_tolerance, peak_filter, relative_abundance_filter)
     
 for spectrum in spectra:
     #This matches every mz in a spectrum with a list of kmers it can match to. Format is (m/z, location_start, location_end, ion, charge, parent_protein)
     matched_masses_b, matched_masses_y = merge_search.modified_match_masses(spectrum.mz_values, proteins, max_pep_len, ppm_tolerance, make_new_db)
     
     #Your code here
+    print("hello")
