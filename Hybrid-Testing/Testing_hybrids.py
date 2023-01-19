@@ -16,7 +16,7 @@ prot_path = 'C:/Users/kayle/OneDrive/Documents/Hybrid-Testing/Hybrid-Testing/dat
 proteins = database.build(prot_path)
 
 if make_new_db:
-    dbf = database_file(max_pep_len, False)
+    dbf = database_file(max_pep_len, True)
     kv_prots = [(k, v) for k, v in proteins.proteins]    
     merge_search.modified_make_database_set(kv_prots, max_pep_len, dbf)
 
@@ -28,7 +28,7 @@ spectra = preprocessing_utils.load_spectra(spectra_files, ppm_tolerance, peak_fi
     
 for spectrum in spectra:
     #This matches every mz in a spectrum with a list of kmers it can match to. Format is (m/z, location_start, location_end, ion, charge, parent_protein)
-    matched_masses_b, matched_masses_y = merge_search.modified_match_masses(spectrum.mz_values, proteins, max_pep_len, ppm_tolerance)
+    matched_masses_b, matched_masses_y = merge_search.modified_match_masses(spectrum.mz_values, proteins, max_pep_len, ppm_tolerance, dbf)
     
     #Your code here
     print("hello")
