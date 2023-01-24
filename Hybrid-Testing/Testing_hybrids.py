@@ -26,9 +26,14 @@ spectra_files = preprocessing_utils.get_spectra_files(spectra_path)
 #Loads in the spectra as a list of spectrum objects
 spectra = preprocessing_utils.load_spectra(spectra_files, ppm_tolerance, peak_filter, relative_abundance_filter)
     
+#container stores result of if a spectrum is hybrid or not 
+is_hybird = list
+
+#This loop checks each spectrum to determine if it is a hybrid peptide
 for spectrum in spectra:
     #This matches every mz in a spectrum with a list of kmers it can match to. Format is (m/z, location_start, location_end, ion, charge, parent_protein)
     matched_masses_b, matched_masses_y = merge_search.modified_match_masses(spectrum.mz_values, proteins, max_pep_len, ppm_tolerance, dbf)
-    
-    #Your code here
-    print("hello")
+
+    #Checking if spectrum is hybrid or not 
+        #Check precusor weight match - if no match, then hybrid 
+        #If some matches, compare mass hits to theoretical mass hits of peptide matches 
