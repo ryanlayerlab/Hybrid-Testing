@@ -37,3 +37,9 @@ def load_spectra(
         ]))
     linear_spectra.sort()
     return (all_spectra)
+
+def find_sequence(hit, protein_list):
+    pid = hit[5]
+    start, end = hit[1], hit[2]
+    prot_seq = protein_list[pid][1]
+    return prot_seq[start:end]
