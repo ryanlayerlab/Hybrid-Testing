@@ -35,19 +35,40 @@ for spectrum in spectra:
     #This matches every mz in a spectrum with a list of kmers it can match to. Format is (m/z, location_start, location_end, ion, charge, parent_protein)
     matched_masses_b, matched_masses_y = merge_search.modified_match_masses(spectrum.mz_values, proteins, max_pep_len, ppm_tolerance, dbf)
 
-    #Get precursor mass to check matches 
-    b_precursor, y_precursor = list(matched_masses_b.keys())[-2], list(matched_masses_b.keys())[-1]
+    #FIRST ROUTE TO CHECK IF HYBRID - CHECK PRECURSOR WEIGHT MATCHES 
+    #Get precursor mass
+    b_precursor, y_precursor = list(matched_masses_b.keys())[-2], list(matched_masses_y.keys())[-1]
 
-    #Getting everything that matched the precursor weights (there's a lot?)
-    all_b_hits, all_y_hits = matched_masses_b[b_precursor], matched_masses_b[y_precursor]
+    #Getting everything that matched the precursor weights
+    all_b_hits, all_y_hits = matched_masses_b[b_precursor], matched_masses_y[y_precursor]
 
-    #Investigating the first hit for the b and y precursor weights 
-    b_hit, y_hit = all_b_hits[0], all_y_hits[0]
+    #Loop over all precursor weight hits and score each one 
+    b_scores, y_scores = list(), list()
+    for hit in all_b_hits: 
+        #Obtain sequence from hit 
+        seq = preprocessing_utils.find_sequence(hit, proteins.proteins)
+        #Score the hit - score = number of peaks matched (out of 25)
+        b_scores.append(scoring.overlap_scoring(seq, ppm_tolerance, spectrum.mz_values))
+    for hit in all_y_hits: 
+        seq = preprocessing_utils.find_sequence(hit, proteins.proteins)
+        y_scores.append(scoring.overlap_scoring(seq, ppm_tolerance, spectrum.mz_values))
+    
+    #Use the scores to guess if it's a hybrid?
+    #Note that sometimes this divides by zero, meaning there are 0 hits for the precursor match 
+    if(len(b_scores != 0)):
+        b_mean = sum(b_scores)/len(b_scores)
+    else: 
+        b_mean = 0
+    if(len(y_scores != 0)):
+        y_mean = sum(y_scores)/len(y_scores)
+    else:
+        b_mean = 0
 
-    #getting the sequence associated with the hits 
-    b_seq, y_seq = preprocessing_utils.find_sequence(b_hit, proteins.proteins), preprocessing_utils.find_sequence(y_hit, proteins.proteins)
+    #Perhaps if the mean scores are below some threshold, they are hybrid? 
+        #Need to truth this with some instances 
 
-    #scoring the hit 
-    b_score, y_score = scoring.overlap_scoring(b_seq, ppm_tolerance, spectrum.mz_values), scoring.overlap_scoring(y_seq, ppm_tolerance, spectrum.mz_values)
+    #SECOND ROUTE TO CHECK IF HYBRID - CHECK HIGHEST MASS MATCH 
+    #Best scoring, highest mass match (with charge accounted for...)
+    #How does it compare to the precursor weight? 
+    #If there is a mass close to the precursor with a 'high' score, it may not be hybrid 
 
-    #use the score to guess if it's a hybrid? 
