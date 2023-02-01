@@ -43,3 +43,12 @@ def find_sequence(hit, protein_list):
     start, end = hit[1], hit[2]
     prot_seq = protein_list[pid][1]
     return prot_seq[start:end]
+
+def first_pass_truth_set(filepath):
+    specmill_seqs = []
+    with open(filepath, 'r') as truth_set:
+        for i,line in enumerate(truth_set):
+            if(i != 0):
+                split_line = line.split(';')
+                specmill_seqs.append(split_line[9])
+    return specmill_seqs
